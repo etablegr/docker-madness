@@ -1,0 +1,25 @@
+version: '3.7'
+
+services:
+  php72:
+    image: etable/php7.2
+    volumes:
+      - "web:/var/www/html"
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - 80:80
+    links:
+      - php72:php72
+    volumes:
+      - "web:/var/www/html"
+      - "/home/vagrant/code/configuration/nginx.conf:/etc/nginx/nginx.conf:ro"
+
+volumes:
+  web:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: /home/vagrant/code/public
